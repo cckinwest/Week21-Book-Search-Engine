@@ -6,8 +6,8 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id }).select(
-          "-__v -password"
+        const userData = await User.findOne({ _id: context.user._id }).populate(
+          "saveBooks"
         );
 
         return userData;
@@ -47,7 +47,7 @@ const resolvers = {
         return await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: args } },
-          { new: true }
+          { new: true, runValidators: true }
         );
       }
       throw new AuthenticationError("You need to be logged in!");
