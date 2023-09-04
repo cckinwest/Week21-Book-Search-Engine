@@ -42,13 +42,15 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (parent, args, context) => {
+    saveBook: async (parent, { bookData }, context) => {
       if (context.user) {
-        return await User.findOneAndUpdate(
+        const user = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedBooks: args } },
-          { new: true, runValidators: true }
-        );
+          { $addToSet: { savedBooks: bookData } },
+          { new: true }
+        ).populate("savedBooks");
+
+        return user;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
