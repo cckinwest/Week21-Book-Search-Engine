@@ -6,8 +6,6 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        console.log("Enter the query me.");
-
         const userData = await User.findOne({ _id: context.user._id }).populate(
           "savedBooks"
         );
