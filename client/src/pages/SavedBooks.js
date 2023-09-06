@@ -24,7 +24,7 @@ const SavedBooks = () => {
 
   const [removeBook, { data: updatedData }] = useMutation(REMOVE_BOOK, {
     onCompleted: () => {
-      console.log(updatedData);
+      //console.log(updatedData);
       setUserData(updatedData.removeBook);
     },
   });
